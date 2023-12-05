@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <th:block th:include="include :: header('志愿推荐列表')"/>
+</head>
+<body class="gray-bg">
+<div class="container-div">
+    <div id="app" class="row">
+        <div class="col-sm-12 search-collapse">
+            <form id="formId">
+                <div  class="select-list">
+                    <ul>
+                        <li>
+                            <label>分数：</label>
+                            <input id="score" type="text" name="lowestScore" th:value="${session.score}" v-on:blur="getRank()"/>
+                        </li>
+                        <li>
+                            <label>首选科目：</label>
+                            <div class="col-sm-9">
+                                <select id="select" class="form-control" name="firstRequest">
+                                    <option  th:selected="${session.subject=='物理'}" value="物理">物理</option>
+                                    <option  th:selected="${session.subject=='历史'}" value="历史">历史</option>
+                                </select>
+                            </div>
+                        </li>
+                        <li>
+                            <label>排名：</label>
+                            <input id="ranking"  type="text" name="lowestRank" th:value="${session.ranking}"/>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                                    class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
+                                    class="fa fa-refresh"></i>&nbsp;重置</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+
+<!--        <div class="btn-group-sm" id="toolbar" role="group">-->
+<!--            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:score:add">-->
+<!--                <i class="fa fa-plus"></i> 添加-->
+<!--            </a>-->
+<!--            <a class="btn btn-primary single disabled" onclick="$.operate.edit()"-->
+<!--               shiro:hasPermission="system:score:edit">-->
+<!--                <i class="fa fa-edit"></i> 修改-->
+<!--            </a>-->
+<!--            <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()"-->
+<!--               shiro:hasPermission="system:score:remove">-->
+<!--                <i class="fa fa-remove"></i> 删除-->
+<!--            </a>-->
+<!--            <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:score:export">-->
+<!--                <i class="fa fa-download"></i> 导出-->
+<!--            </a>-->
+<!--        </div>-->
+        <div class="col-sm-12 select-table table-striped">
+            <table id="bootstrap-table"></table>
+        </div>
+    </div>
+</div>
+<th:block th:include="include :: footer"/>
+<script th:inline="javascript">
+    var editFlag = [[${@permission.hasPermi('system:score:edit')}]];
+    var removeFlag = [[${@permission.hasPermi('system:score:remove')}]];
+    var prefix = ctx + "system/score";
+
+    $(function () {
+        var options = {
+            url: prefix + "/list",
+            createUrl: prefix + "/add",
+            updateUrl: prefix + "/edit/{id}",
+            removeUrl: prefix + "/remove",
+            exportUrl: prefix + "/export",
+            modalName: "志愿推荐",
+            columns: [
+            //     {
+            //     checkbox: true
+            // },
+                {
+                    field: 'riskRate',
+                    title: '报考风险'
+                },
+                {
+                    field: 'index',
+                    title: '录取指数'
+                },
+                {
+                    field: 'uniName',
+                    title: '学校名称'
+                },
+                {
+                    field: 'uniDirection',
+                    title: '方向'
+                },
+                {
+                    field: 'uniCode',
+                    title: '学校代码',
+                    visible: false
+                },
+                {
+                    field: 'uniProvince',
+                    title: '省份'
+                },
+                {
+                    field: 'uniCity',
+                    title: '城市'
+                },
+                {
+                    field: 'uniType',
+                    title: '学校类型'
+                },
+                {
+                    field: 'level',
+                    title: '批次'
+                },
+                {
+                    field: 'firstRequest',
+                    title: '首选科目'
+                },
+                {
+                    field: 'lowestScore',
+                    title: '最低投档线'
+                },
+                {
+                    field: 'lowestRank',
+                    title: '最低分排名'
+                },
+                {
+                    field: 'matriculateNumber',
+                    title: '录取人数'
+                }
+                // {
+                //     title: '操作',
+                //     align: 'center',
+                //     formatter: function (value, row, index) {
+                //         var actions = [];
+                //         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.uniCode + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                //         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.uniCode + '\')"><i class="fa fa-remove"></i>删除</a>');
+                //         return actions.join('');
+                //     }
+                // }
+                ]
+        };
+        $.table.init(options);
+    });
+</script>
+
+<!--输入分数，自动获得排名-->
+<script th:src="@{/js/vue.min.js}"></script>
+<script th:src="@{/js/axios.min.js}"></script>
+<script type="text/javascript">
+    new Vue({
+        el:"#app",
+        data:{
+            "results":[]
+        },
+        methods:{
+            getRank(){
+                var score = document.getElementById("score")
+                var form = document.getElementById('formId');
+                var subject =$("#select option:selected"); //获取选中的项
+                axios({
+                    method: 'get',
+                    url: '/system/rank/getRank',
+                    params: {
+                        subject:subject.val(),
+                        score :$("#score").val(),
+                    }
+
+                }).then(function (response) {
+
+                    if(subject.val()=="物理"){
+                        this.results = response.data[0].physisRank;
+                        $("#ranking").val(results)
+                    }else{
+                        this.results = response.data[0].historyRank;
+                        $("#ranking").val(results)
+
+                    }
+                    console.log(results)
+                    console.log(score.value)
+                })
+            }
+        }
+    });
+</script>
+
+
+</body>
+</html>

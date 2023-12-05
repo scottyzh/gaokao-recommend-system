@@ -1,0 +1,230 @@
+
+    function loginuser(){
+        $('#regist').hide();
+        $('#login-user').show();
+        $('.login-default1').addClass("login-tab-default");
+        $('.login-default2').removeClass('login-tab-default');
+        }
+    
+    function regist(){
+        $('#login-user').hide();
+        $('#regist').show();
+        $('.login-default2').addClass("login-tab-default");
+        $('.login-default1').removeClass('login-tab-default');
+    
+        }
+    
+    //页面转化大写
+    function upper(){
+        var password = $("#vip-password").val();
+        //判定账号是否前两个字符为LK或DW开头
+        if($("#vip-number").val().slice(0,2) == "LK"|| $("#vip-number").val().slice(0,2) == "DW"){
+        //如果是就自动转化为大写		
+          // console.log($("#vip-number").val().slice(0,2));
+          $("#vip-password").val(password.toUpperCase());
+          
+        }
+        console.log($("#vip-password").val());
+        
+      }		
+      
+
+
+
+    $(document).ready(function(){
+      /*$("#regist_mobile").blur(function(){
+        var mobile=$(this).val();
+        $.ajax({
+          type: "POST", //用POST方式传输
+          url: action, //目标地址
+            cache: false,
+              async: true,
+          data: {"phone":mobile},
+          error: function (e) {console.log(e); },
+          success: function (msg){ 
+            var flag = msg;
+            alert(flag)
+            if (flag == "1"){
+              alert("adw a");
+            }else{
+              alert("aaaa a");
+            }
+    
+          }
+        });
+        <#if moblie_error?exists>
+          $("#mobile-error").text("手机号已存在");
+        </#if>
+      })*/
+      
+      //表单验证 validation插件
+      $('#loginform').validate({
+      
+          rules: {
+            login_username:{required:true,} ,
+            login_password: "required",
+            validateCode:"required"
+            },
+            errorClass:'loginerror',
+            messages: {
+             login_username:"用户名不能为空" ,
+              login_password: "密码不能为空",
+              validateCode:'验证码不能为空'
+              },
+            errorPlacement:function(error,element){error.appendTo(element.parents('p,center'))}
+      })
+      $('#registerform').validate({
+        
+          rules: {
+            
+            regist_mobile: "required",
+            regist_validate: "required",
+            regist_password: "required",
+            regist_confirmPwd: {required:true,equalTo: "#d-pass"},
+            regist_agree: "required"
+            },
+            errorClass:'loginerror',
+            messages: {
+            
+              regist_mobile: "手机号不能为空",
+            regist_validate: "验证码账号不能为空",
+            regist_password: "密码不能为空",
+            regist_confirmPwd: {required:'确认密码不能为空',equalTo: "密码和确认密码不一致"},
+            regist_agree:'请先阅读用户协议'
+              },
+            errorPlacement:function(error,element){error.appendTo(element.parents('p'))}
+      })
+      
+      
+      $("#vip-number").focus(function(){
+        $("#login-tip").remove();
+      });
+      $("#vip-password").focus(function(){
+        $("#login-tip").remove();
+      });
+    
+      //#regist_mobile失去焦点验证手机号是否注册
+      $("#regist_mobile").on("blur",sendMessage);
+    
+      //鼠标移出账号自动转换为大写
+      $("#vip-number").on("blur",function(){
+        var test=$(this).val();
+        $(this).val(test.toUpperCase());			
+      });
+      
+    
+    })
+ 
+          /*-------------------------------------------*/
+      var InterValObj; //timer变量，控制时间
+      var count = 120; //间隔函数，1秒执行
+      var curCount;//当前剩余秒数
+      
+      var codeLength = 6;//验证码长度
+      var action = "${ICDDContext.encodeURL('/user_front/list')}";
+      function sendMessage() {
+        var code = ""; //验证码
+        curCount = count;
+        var phone=$("#regist_mobile").val();//手机号码
+        if(phone.length > 0){
+          //产生验证码
+          for (var i = 0; i < codeLength; i++) {
+            code += parseInt(Math.random() * 9).toString();
+          }
+          //设置button效果，开始计时
+          $("#btnSendCode").attr("disabled", "true");
+          $("#btnSendCode").val("请在" + curCount + "秒内输入验证码");
+          InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+          var myDate = new Date();
+          var startTime = myDate.getTime();
+          //向后台发送处理数据
+          $.ajax({
+            type: "POST", //用POST方式传输
+            url: action, //目标地址
+              cache: false,
+                async: true,
+            data: {"phone":phone ,'code':code,"startTime":startTime},
+            error: function (e) {console.log(e); },
+            success: function (msg){ 
+              var flag = msg;
+              if (flag == 1){
+                $("#mobile-error").text("手机号已注册");
+                window.clearInterval(InterValObj);//停止计时器
+                $("#btnSendCode").val("重新发送验证码");
+                $("#btnSendCode").prop("disabled");//禁用按钮
+              }else{
+                
+              }
+    
+            }
+          });
+        }else{
+          // alert("手机号码不能为空！");
+          $('.dialog-war').show();
+        $('#alert_word').text('手机号不能为空');
+        $('.dialog-close,.console-btn-confirm').click(function(){
+          $('.dialog-war').hide();
+        })
+        }
+      }
+      //timer处理函数
+      function SetRemainTime() {
+        if (curCount == 0) {
+          window.clearInterval(InterValObj);//停止计时器
+          $("#btnSendCode").prop("disabled","disabled");//禁用按钮
+          $("#btnSendCode").val("重新发送验证码");
+        }
+        else {
+          curCount--;
+          $("#btnSendCode").val("请在" + curCount + "秒后再次发送验证");
+        }
+      }
+
+      //刷新验证码
+      function changeImg(){
+        document.getElementById("validateCodeImg").src="${ICDDContext.encodeURL('/user/generateValidateCode')}?"+Math.random();
+      }
+      
+      //检验验证码是否正确
+      function checkService(){
+        var validateCodeValue = document.getElementById("validateCode").value; 
+        if(validateCodeValue.length==4)
+          {
+        $.ajax({
+          type: 'post',
+            url: "${ICDDContext.encodeURL('/user/checkService')}",
+            data : {validateCode:validateCodeValue},
+            dataType:'json',
+          success : function(data){
+            var flag = data;
+            if (flag == 1){
+              document.getElementById("isCorrect").innerHTML = "<span class='green'>正确</span>";
+              $("input[name='loginButton']").removeAttr("disabled");
+            }else{
+              document.getElementById("isCorrect").innerHTML = "<span class='red'>错误</span>";
+              $("input[name='loginButton']").attr("disabled","disabled");
+            }
+            document.getElementById("flag").value = flag;
+          },
+          error: function(){
+            //alert("error");
+          }
+        });
+          }
+        else
+          {
+          document.getElementById("isCorrect").innerHTML = "";
+          }
+      }
+      
+      //第一种方法
+      $(document).ready(function(){
+          var doc=document,inputs=doc.getElementsByTagName('input'),supportPlaceholder='placeholder'in doc.createElement('input'),placeholder=function(input){var text=input.getAttribute('placeholder'),defaultValue=input.defaultValue;
+          if(defaultValue==''){
+              input.value=text}
+              input.onfocus=function(){
+                  if(input.value===text){this.value=''}};
+                  input.onblur=function(){if(input.value===''){this.value=text}}};
+                  if(!supportPlaceholder){
+                      for(var i=0,len=inputs.length;i<len;i++){var input=inputs[i],text=input.getAttribute('placeholder');
+                      if(input.type==='text'&&text){placeholder(input)}}}});

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mainpage.mapper.MainpageMapper">
+    
+    <resultMap type="Mainpage" id="MainpageResult">
+        <result property="imageHref"    column="image_href"    />
+        <result property="imageId"    column="image_id"    />
+    </resultMap>
+
+    <sql id="selectMainpageVo">
+        select image_href, image_id from mainpage
+    </sql>
+
+    <select id="selectMainpageList" parameterType="Mainpage" resultMap="MainpageResult">
+        <include refid="selectMainpageVo"/>
+        <where>  
+            <if test="imageHref != null  and imageHref != ''"> and image_href = #{imageHref}</if>
+            <if test="imageId != null "> and image_id = #{imageId}</if>
+        </where>
+    </select>
+    
+    <select id="selectMainpageByImageId" parameterType="Integer" resultMap="MainpageResult">
+        <include refid="selectMainpageVo"/>
+        where image_id = #{imageId}
+    </select>
+        
+    <insert id="insertMainpage" parameterType="Mainpage" useGeneratedKeys="true" keyProperty="imageId">
+        insert into mainpage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="imageHref != null and imageHref != ''">image_href,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="imageHref != null and imageHref != ''">#{imageHref},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMainpage" parameterType="Mainpage">
+        update mainpage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="imageHref != null and imageHref != ''">image_href = #{imageHref},</if>
+        </trim>
+        where image_id = #{imageId}
+    </update>
+
+    <delete id="deleteMainpageByImageId" parameterType="Integer">
+        delete from mainpage where image_id = #{imageId}
+    </delete>
+
+    <delete id="deleteMainpageByImageIds" parameterType="String">
+        delete from mainpage where image_id in 
+        <foreach item="imageId" collection="array" open="(" separator="," close=")">
+            #{imageId}
+        </foreach>
+    </delete>
+
+</mapper>

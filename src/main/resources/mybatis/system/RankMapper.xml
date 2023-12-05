@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.rank.mapper.RankMapper">
+    
+    <resultMap type="Rank" id="RankResult">
+        <result property="physisScore"    column="physis_score"    />
+        <result property="physisRank"    column="physis_rank"    />
+        <result property="historyScore"    column="history_score"    />
+        <result property="historyRank"    column="history_rank"    />
+    </resultMap>
+
+    <sql id="selectRankVo">
+        select physis_score, physis_rank, history_score, history_rank from `rank`
+    </sql>
+
+<!--查询物理排名-->
+    <select id="selectPhysisRankByPhysisScore" parameterType="Long" resultMap="RankResult">
+        <include refid="selectRankVo"></include>
+        where physis_score = #{physisScore}
+    </select>
+
+<!--查询历史排名-->
+    <select id="selectHistoryRankByHistoryScore" parameterType="Long" resultMap="RankResult">
+        <include refid="selectRankVo"></include>
+        where history_score = #{historyScore}
+    </select>
+
+    <select id="selectRankList" parameterType="Rank" resultMap="RankResult">
+        <include refid="selectRankVo"/>
+        <where>  
+            <if test="physisScore != null "> and physis_score = #{physisScore}</if>
+            <if test="physisRank != null "> and physis_rank = #{physisRank}</if>
+            <if test="historyScore != null "> and history_score = #{historyScore}</if>
+            <if test="historyRank != null "> and history_rank = #{historyRank}</if>
+        </where>
+    </select>
+
+    <select id="selectRankByPhysisScore" parameterType="Long" resultMap="RankResult">
+        <include refid="selectRankVo"/>
+        where physis_score = #{physisScore}
+    </select>
+        
+    <insert id="insertRank" parameterType="Rank">
+        insert into `rank`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="physisScore != null">physis_score,</if>
+            <if test="physisRank != null">physis_rank,</if>
+            <if test="historyScore != null">history_score,</if>
+            <if test="historyRank != null">history_rank,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="physisScore != null">#{physisScore},</if>
+            <if test="physisRank != null">#{physisRank},</if>
+            <if test="historyScore != null">#{historyScore},</if>
+            <if test="historyRank != null">#{historyRank},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRank" parameterType="Rank">
+        update `rank`
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="physisRank != null">physis_rank = #{physisRank},</if>
+            <if test="historyScore != null">history_score = #{historyScore},</if>
+            <if test="historyRank != null">history_rank = #{historyRank},</if>
+        </trim>
+        where physis_score = #{physisScore}
+    </update>
+
+    <delete id="deleteRankByPhysisScore" parameterType="Long">
+        delete from `rank` where physis_score = #{physisScore}
+    </delete>
+
+    <delete id="deleteRankByPhysisScores" parameterType="String">
+        delete from `rank` where physis_score in
+        <foreach item="physisScore" collection="array" open="(" separator="," close=")">
+            #{physisScore}
+        </foreach>
+    </delete>
+
+</mapper>

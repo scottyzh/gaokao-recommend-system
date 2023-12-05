@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.score.mapper.ScoreMapper">
+    
+    <resultMap type="Score" id="ScoreResult">
+        <result property="riskRate"    column="risk_rate"    />
+        <result property="uniName"    column="uni_name"    />
+        <result property="uniDirection"    column="uni_direction"    />
+        <result property="uniCode"    column="uni_code"    />
+        <result property="uniProvince"    column="uni_province"    />
+        <result property="uniCity"    column="uni_city"    />
+        <result property="uniType"    column="uni_type"    />
+        <result property="level"    column="level"    />
+        <result property="firstRequest"    column="first_request"    />
+        <result property="lowestScore"    column="lowest_score"    />
+        <result property="lowestRank"    column="lowest_rank"    />
+        <result property="matriculateNumber"    column="matriculate_number"    />
+    </resultMap>
+
+    <sql id="selectScoreVo">
+        select risk_rate, uni_name, uni_direction, uni_code, uni_province, uni_city, uni_type, level, first_request, lowest_score, lowest_rank, matriculate_number from score
+    </sql>
+
+    <select id="selectScoreList" parameterType="Score" resultMap="ScoreResult">
+        <include refid="selectScoreVo"/>
+        <where>  
+            <if test="riskRate != null  and riskRate != ''"> and risk_rate = #{riskRate}</if>
+            <if test="uniName != null  and uniName != ''"> and uni_name like concat('%', #{uniName}, '%')</if>
+            <if test="uniDirection != null  and uniDirection != ''"> and uni_direction = #{uniDirection}</if>
+            <if test="uniProvince != null  and uniProvince != ''"> and uni_province = #{uniProvince}</if>
+            <if test="uniCity != null  and uniCity != ''"> and uni_city = #{uniCity}</if>
+            <if test="uniType != null  and uniType != ''"> and uni_type = #{uniType}</if>
+            <if test="level != null  and level != ''"> and level = #{level}</if>
+            <if test="firstRequest != null  and firstRequest != ''"> and first_request = #{firstRequest}</if>
+            <if test="lowestScore != null "> and lowest_score = #{lowestScore}</if>
+            <if test="lowestRank != null "> and lowest_rank = #{lowestRank}</if>
+            <if test="matriculateNumber != null "> and matriculate_number = #{matriculateNumber}</if>
+        </where>
+    </select>
+    
+    <select id="selectScoreByUniCode" parameterType="String" resultMap="ScoreResult">
+        <include refid="selectScoreVo"/>
+        where uni_code = #{uniCode}
+    </select>
+        
+    <insert id="insertScore" parameterType="Score">
+        insert into score
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="riskRate != null">risk_rate,</if>
+            <if test="uniName != null and uniName != ''">uni_name,</if>
+            <if test="uniDirection != null">uni_direction,</if>
+            <if test="uniCode != null">uni_code,</if>
+            <if test="uniProvince != null and uniProvince != ''">uni_province,</if>
+            <if test="uniCity != null and uniCity != ''">uni_city,</if>
+            <if test="uniType != null and uniType != ''">uni_type,</if>
+            <if test="level != null">level,</if>
+            <if test="firstRequest != null">first_request,</if>
+            <if test="lowestScore != null">lowest_score,</if>
+            <if test="lowestRank != null">lowest_rank,</if>
+            <if test="matriculateNumber != null">matriculate_number,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="riskRate != null">#{riskRate},</if>
+            <if test="uniName != null and uniName != ''">#{uniName},</if>
+            <if test="uniDirection != null">#{uniDirection},</if>
+            <if test="uniCode != null">#{uniCode},</if>
+            <if test="uniProvince != null and uniProvince != ''">#{uniProvince},</if>
+            <if test="uniCity != null and uniCity != ''">#{uniCity},</if>
+            <if test="uniType != null and uniType != ''">#{uniType},</if>
+            <if test="level != null">#{level},</if>
+            <if test="firstRequest != null">#{firstRequest},</if>
+            <if test="lowestScore != null">#{lowestScore},</if>
+            <if test="lowestRank != null">#{lowestRank},</if>
+            <if test="matriculateNumber != null">#{matriculateNumber},</if>
+         </trim>
+    </insert>
+
+    <update id="updateScore" parameterType="Score">
+        update score
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="riskRate != null">risk_rate = #{riskRate},</if>
+            <if test="uniName != null and uniName != ''">uni_name = #{uniName},</if>
+            <if test="uniDirection != null">uni_direction = #{uniDirection},</if>
+            <if test="uniProvince != null and uniProvince != ''">uni_province = #{uniProvince},</if>
+            <if test="uniCity != null and uniCity != ''">uni_city = #{uniCity},</if>
+            <if test="uniType != null and uniType != ''">uni_type = #{uniType},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="firstRequest != null">first_request = #{firstRequest},</if>
+            <if test="lowestScore != null">lowest_score = #{lowestScore},</if>
+            <if test="lowestRank != null">lowest_rank = #{lowestRank},</if>
+            <if test="matriculateNumber != null">matriculate_number = #{matriculateNumber},</if>
+        </trim>
+        where uni_code = #{uniCode}
+    </update>
+
+    <delete id="deleteScoreByUniCode" parameterType="String">
+        delete from score where uni_code = #{uniCode}
+    </delete>
+
+    <delete id="deleteScoreByUniCodes" parameterType="String">
+        delete from score where uni_code in 
+        <foreach item="uniCode" collection="array" open="(" separator="," close=")">
+            #{uniCode}
+        </foreach>
+    </delete>
+
+</mapper>

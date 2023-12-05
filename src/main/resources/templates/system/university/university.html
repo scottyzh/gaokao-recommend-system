@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('院校查询列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>学校名称：</label>
+                                <input type="text" name="uniName"/>
+                            </li>
+                            <li>
+                                <label>省份：</label>
+                                <input type="text" name="uniProvince"/>
+                            </li>
+                            <li>
+                                <label>城市：</label>
+                                <input type="text" name="uniCity"/>
+                            </li>
+                            <li>
+                                <label>学校代码：</label>
+                                <input type="text" name="uniCode"/>
+                            </li>
+<!--                            <li>-->
+<!--                                <label>方向：</label>-->
+<!--                                <input type="text" name="uniDirection"/>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <label>批次：</label>-->
+<!--                                <input type="text" name="level"/>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <label>物理最低分：</label>-->
+<!--                                <input type="text" name="physisLowScore"/>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <label>历史最低分：</label>-->
+<!--                                <input type="text" name="historyLowScore"/>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <label>物理最低分排名：</label>-->
+<!--                                <input type="text" name="physisLowScoreRank"/>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <label>历史最低分排名：</label>-->
+<!--                                <input type="text" name="historyLowScoreRank"/>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <label>物理类录取人数：</label>-->
+<!--                                <input type="text" name="physisMatriculateNumber"/>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <label>历史类录取人数：</label>-->
+<!--                                <input type="text" name="historyMatriculateNumber"/>-->
+<!--                            </li>-->
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+<!--            <div class="btn-group-sm" id="toolbar" role="group">-->
+<!--                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:university:add">-->
+<!--                    <i class="fa fa-plus"></i> 添加-->
+<!--                </a>-->
+<!--                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:university:edit">-->
+<!--                    <i class="fa fa-edit"></i> 修改-->
+<!--                </a>-->
+<!--                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:university:remove">-->
+<!--                    <i class="fa fa-remove"></i> 删除-->
+<!--                </a>-->
+<!--                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:university:export">-->
+<!--                    <i class="fa fa-download"></i> 导出-->
+<!--                </a>-->
+<!--            </div>-->
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:university:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:university:remove')}]];
+        var prefix = ctx + "system/university";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "院校查询",
+                columns: [
+                //     {
+                //     checkbox: true
+                // },
+                {
+                    field: 'uniName',
+                    title: '学校名称'
+                },
+                {
+                    field: 'uniProvince',
+                    title: '省份'
+                },
+                {
+                    field: 'uniCity',
+                    title: '城市'
+                },
+                {
+                    field: 'uniType',
+                    title: '学校类型'
+                },
+                {
+                    field: 'uniCode',
+                    title: '学校代码'
+                },
+                {
+                    field: 'uniDirection',
+                    title: '方向'
+                },
+                {
+                    field: 'level',
+                    title: '批次'
+                },
+                {
+                    field: 'physisLowScore',
+                    title: '物理最低分'
+                },
+                {
+                    field: 'historyLowScore',
+                    title: '历史最低分'
+                },
+                {
+                    field: 'physisLowScoreRank',
+                    title: '物理最低分排名'
+                },
+                {
+                    field: 'historyLowScoreRank',
+                    title: '历史最低分排名'
+                },
+                {
+                    field: 'physisMatriculateNumber',
+                    title: '物理类录取人数'
+                },
+                {
+                    field: 'historyMatriculateNumber',
+                    title: '历史类录取人数'
+                }
+                // {
+                //     title: '操作',
+                //     align: 'center',
+                //     formatter: function(value, row, index) {
+                //         var actions = [];
+                //         actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.uniName + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                //         actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.uniName + '\')"><i class="fa fa-remove"></i>删除</a>');
+                //         return actions.join('');
+                //     }
+                // }
+                ]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

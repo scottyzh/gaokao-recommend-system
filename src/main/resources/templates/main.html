@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<!-- saved from url=(0025)http://www.juzhiyuan.com/ -->
+<html lang="zh-cn" xmlns:th="http://www.thymeleaf.org" xmlns:v-on="http://www.w3.org/1999/xhtml"
+      xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-for="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>聚志愿_2021高考志愿填报模拟系统和高考志愿填报指南</title>
+
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link th:href="@{/main_files/animate.css}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/main_files/layui.css}">
+    <!--    <script type="text/javascript" th:src="@{/main_files/layui.js}"></script>-->
+    <script type="text/javascript" th:src="@{/main_files/layui-v2.6.8/layui/layui.js}"></script>
+    <script type="text/javascript" th:src="@{/main_files/jquery.min.js}"></script>
+    <!-- 兼容ie -->
+    <script>
+        var userInfo = 0;
+    </script>
+    <script th:src="@{/main_files/polyfill.js}"></script>
+    <script th:src="@{/main_files/vue.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/main_files/index.css}">
+
+    <link id="layuicss-layer" rel="stylesheet" th:href="@{/main_files/layer.css}" media="all">
+</head>
+
+<body>
+<div id="elemdom">
+    <div class="item"> </div> <div onclick="handleClickUser()" class="item userInfo hv" style="display: none;">
+    <span class="a-nav ">个人中心</span>
+    <span class="iconfont iconyonghu" style="font-size: 20px; color: rgb(51, 51, 51);"></span>
+</div>
+    <div class="user" style="display: none;">
+        <div class="messageBox"><div class="top">
+            <div>
+                <span class="iconfont iconyonghu" style="font-size: 20px; color: rgb(51, 51, 51);"></span>
+            </div>
+            <div>
+                <p> 178****3172</p>
+                <p><span>安徽</span><span>理科</span></p>
+            </div></div> <div class="center">
+            <div><a href="http://www.juzhiyuan.com/">我的成绩</a>
+            </div> <div><a href="http://www.juzhiyuan.com/">我的志愿</a>
+        </div>
+            <div>
+                <a href="http://www.juzhiyuan.com/">我的关注</a>
+            </div>
+            <div>
+                <a href="http://www.juzhiyuan.com/">我的订单</a>
+            </div>
+        </div>
+            <div class="bot">
+                <div class="hv">
+                    <span class="iconfont iconvip" style="font-size: 20px; display: inline-block; margin-top: 3px; margin-right: 3px;"></span>
+                    <span id="vip" onclick="openvip()">开通VIP</span>
+                </div>
+                <div class="hv">
+                    <span class="iconfont icontuichu" style="display: inline-block; margin-right: 3px;"></span>
+                    <span>退出登录</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div style="clear: both;">
+</div>
+</div>
+</div>
+<div id="carousels" class="layui-carousel" lay-arrow="hover"  style="width: 100%; height: 400px;">
+    <div carousel-item>
+        <div style="text-align: center; background: linear-gradient(131deg, rgb(213, 30, 248) 0%, rgb(16, 84, 230) 100%);" class="layui-this">
+            <img th:src="@{/main_files/bai1.png}" style="height: 400px !important; width: 1200px !important;">
+        </div>
+        <div style="text-align: center; background: linear-gradient(131deg, rgb(255, 87, 34) 0%, rgb(182, 58, 0) 100%);" class="">
+            <img th:src="@{/main_files/bai1.png}" style="height: 400px !important; width: 1200px !important;">
+        </div>
+        <div style="text-align: center; background: linear-gradient(131deg, rgb(18, 84, 255) 0%, rgb(92, 118, 255) 100%);" class="">
+            <img th:src="@{/main_files/bai2.png}" style="height: 400px !important; width: 1200px !important;">
+        </div>
+        <div style="text-align: center; background: linear-gradient(131deg, rgb(25, 248, 168) 0%, rgb(245, 184, 76) 100%);" class="layui-carousel-next">
+            <img th:src="@{/main_files/bai3.png}" style="height: 400px !important; width: 1200px !important;">
+        </div>
+        <div style="text-align: center; background: linear-gradient(131deg, rgb(255, 0, 20) 0%, rgb(158, 51, 0) 100%);" class="">
+            <img th:src="@{/main_files/bai4.png}" style="height: 400px !important; width: 1200px !important;">
+        </div>
+
+    </div>
+    <div id="app" class="layui-container start-analysis" style="z-index:10">
+        <div class="ana-box" style="padding: 0px 20px; position: absolute; right: 0px; top: -395px; height: 390px;"><h1 style="margin-top: 25px;">聚志愿大数据高考志愿系统</h1>
+            <form id="formId">
+                <div class="input-row" style="margin: 20px 0px;">
+                    <span style="float: left;">高考省份</span>
+                    <span style="float: right;">
+                    <span>广东</span></span>
+                    <div style="clear: both;">
+                    </div>
+                </div>
+                <div class="input-row js-gkkm" style="margin: 20px 0px;">
+                    <span style="float: left;">高考首选科目</span> <br>
+                    <input id="subject1" type="radio" name="subject" value="物理" checked style="float: right"/>物理
+                    <br>
+                    <input id="subject2" type="radio" name="subject" value="历史" />历史
+                    <div id="gaokaokemus" style="display: none;">
+                    </div> <div style="clear: both;"></div>
+                </div>
+                <div class="input-row" style="position: relative; margin: 20px 0px;" >
+                    <span style="float: left;">高考分数</span>
+                    <input id="score" type="text" name="score" placeholder="请输入高考分数" v-on:blur="getRank()">
+                    <div style="clear: both;"></div>
+                    <span style="position: absolute; right: 8px; top: 10px; font-size: 14px; color: black;">分</span>
+                </div>
+                <div class="input-row" style="position: relative; margin: 20px 0px;" >
+                    <span style="float: left;">高考排名</span>
+                    <input id="ranking" type="text" name="ranking" placeholder="请输入排名">
+                    <div style="clear: both;"></div>
+                    <span style="position: absolute; right: 8px; top: 10px; font-size: 14px; color: black;">名</span>
+                </div>
+                <div onclick="startAnalysis()" class="btn-submit">开始填报
+                </div>
+                <a data-toggle="tab" class="menuItem noactive" href="/system/score" id="alink" hidden="hidden">
+                    <i class="#"></i> <span>志愿推荐</span>
+                </a>
+            </form>
+        </div>
+    </div>
+    <button class="layui-icon layui-carousel-arrow" lay-type="sub"></button>
+    <button class="layui-icon layui-carousel-arrow" lay-type="add"></button>
+</div>
+</div>
+
+<script th:src="@{/js/vue.min.js}"></script>
+<script th:src="@{/js/axios.min.js}"></script>
+<script type="text/javascript">
+    new Vue({
+        el:"#app",
+        data:{
+            "results":[]
+        },
+        methods:{
+            getRank(){
+                var score = document.getElementById("score")
+                var form = document.getElementById('formId');
+                var subject = form.subject
+                axios({
+                    method: 'get',
+                    url: '/system/rank/getRank',
+                    params: {
+                        subject:subject.value,
+                        score :$("#score").val(),
+                    }
+
+                }).then(function (response) {
+
+                    if(subject.value=="物理"){
+                        this.results = response.data[0].physisRank;
+                        $("#ranking").val(results)
+                    }else{
+                        this.results = response.data[0].historyRank;
+                        $("#ranking").val(results)
+
+                    }
+                    console.log(results)
+                    console.log(score.value)
+                })
+            }
+        }
+    });
+
+
+
+</script>
+
+
+<script th:src="@{/main_files/layui-v2.6.8/layui/layui.js}" type="text/javascript">
+    layui.use('carousel', function(){
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#carousels'
+            ,width: '100%' //设置容器宽度
+            ,arrow: 'always' //显示箭头
+            ,interval:'800'
+            ,autoPlay: 'true'
+            ,indicator: 'outside'
+
+            // ,anim: 'fadeIn' //切换动画方式
+        });
+    });
+
+    function startAnalysis(){
+        // return layer.alert('即将开放，敬请期待',{icon:0});
+        // var kemus = vm.kemus ? vm.kemus:(parseInt($('input[name="user_kemu"]').val()));
+        // var wenli = vm.wenli ? vm.wenli:(parseInt($('input[name="user_wenli"]').val()));
+        var kemus = vm.kemus;
+        var wenli = vm.wenli;
+        var score = vm.score;
+        var rank = vm.rank;
+        var subject=vm.subject;
+        if(!kemus.length>0 && !wenli.length && !wenli){
+            // return layer.alert('科目或文理必选一项',{icon:0});
+            return layer.msg('科目或文理必选一项', {icon: 5,time: 3000 });
+        }
+        if(score.length==''){
+            // return layer.alert('分数为必填项',{icon:0});
+            return layer.msg('分数为必填项', {icon: 5,time: 3000 });
+        }
+
+        // if(rank.length==''){
+        //     // return layer.alert('排名为必填项',{icon:0});
+        //     return layer.msg('排名为必填项', {icon: 5,time: 3000 });
+        // }
+        var href = "/cesuan?province="+vm.cur_province_code+"&score="+score+"&rank="+rank
+        var subjects  = ''
+        if(kemus.length>0){
+            if($.isArray(kemus)){
+                kemus = kemus.join('')
+            }
+            subjects = kemus;
+            href+="&mykemu="+kemus;
+        }else if(wenli.length||wenli){
+            href+="&wenli="+wenli;
+            subjects = wenli;
+        }
+        var verifyMinScore = jzy_batchObj.veryscore(provinceContorl.getCode(),subjects,score);
+        if(verifyMinScore.code === 1){
+            return layer.msg(verifyMinScore.msg, {icon: 5,time: 3000 });
+        }
+        if(score>750){
+            // return layer.alert('请输入200~700间的分数',{icon:0});
+            return layer.msg('最高分不能大于750分', {icon: 5,time: 3000 });
+        }
+        goToEstimate({
+            subjects:subjects,score:score,province:vm.cur_province_code,rank:rank
+        })
+    }
+</script>
+
+
+<!--找大学-->
+<!--<div class="content-item layui-container">
+    <h1>数据查询</h1>
+    <h2>汇聚全国2800+所高校近八年数据</h2>
+    <div class="layui-row layui-col-space20">
+        <div class="layui-col-sm3 layui-col-xs3 layui-col-lg3">
+            <a href="http://www.juzhiyuan.com/cesuan" target="_blank">
+                <div class="item">
+                    <img th:src="@{/main_files/threeLevel8.png}">
+                    <h3>测录取概率</h3>
+                    <p>根据分数测大学概率</p>
+                </div>
+            </a>
+        </div>
+        <div class="layui-col-sm3 layui-col-xs3 layui-col-lg3">
+            <a href="http://www.juzhiyuan.com/schools.html" target="_blank">
+                <div class="item">
+                    <img th:src="@{/main_files/threeLevel1.png}">
+                    <h3>院校库</h3>
+                    <p>查2800+所院校数据</p>
+                </div>
+            </a>
+        </div>
+        <div class="layui-col-sm3 layui-col-xs3 layui-col-lg3">
+            <a href="http://www.juzhiyuan.com/majors.html" target="_blank">
+                <div class="item">
+                    <img th:src="@{/main_files/threeLevel2.png}">
+                    <h3>专业库</h3>
+                    <p>查本专科所有专业</p>
+                </div>
+            </a>
+        </div>
+        <div class="layui-col-sm3 layui-col-xs3 layui-col-lg3">
+            <a href="http://www.juzhiyuan.com/index/school-score.html" target="_blank">
+                <div class="item">
+                    <img th:src="@{/main_files/threeLevel7.png}">
+                    <h3>院校分数线</h3>
+                    <p>查院校录取最低分</p>
+                </div>
+            </a>
+        </div>
+        <div class="layui-col-sm3 layui-col-xs3 layui-col-lg3">
+            <a href="http://www.juzhiyuan.com/index/major-score.html" target="_blank">
+                <div class="item">
+                    <img th:src="@{/main_files/threeLevel8.png}">
+                    <h3>专业分数线</h3>
+                    <p>查院校专业最低分</p>
+                </div>
+            </a>
+        </div>
+        <div class="layui-col-sm3 layui-col-xs3 layui-col-lg3">
+            <a href="http://www.juzhiyuan.com/index/school-plan.html" target="_blank">
+                <div class="item">
+                    <img th:src="@{/main_files/threeLevel12.png}">
+                    <h3>招生计划</h3>
+                    <p>查院校全部招生计划</p>
+                </div>
+            </a>
+        </div>
+        <div class="layui-col-sm3 layui-col-xs3 layui-col-lg3">
+            <a href="http://www.juzhiyuan.com/daxuepaiming.html" target="_blank">
+                <div class="item">
+                    <img th:src="@{/main_files/threeLevel2.png}">
+                    <h3>大学排名</h3>
+                    <p>聚志愿大学排名查询</p>
+                </div>
+            </a>
+        </div>
+        <div class="layui-col-sm3 layui-col-xs3 layui-col-lg3">
+            <a href="http://www.juzhiyuan.com/school/schcom.html" target="_blank">
+                <div class="item">
+                    <img th:src="@{/main_files/threeLevel5.png}">
+                    <h3>大学对比</h3>
+                    <p>大学对比PK查询系统</p>
+                </div>
+            </a>
+        </div>
+        <div class="layui-col-sm3 layui-col-xs3 layui-col-lg3">
+            <a href="http://www.juzhiyuan.com/index/school-by-rank.html" target="_blank">
+                <div class="item">
+                    <img th:src="@{/main_files/threeLevel6.png}">
+                    <h3>位次查大学</h3>
+                    <p>根据位次查录取院校</p>
+                </div>
+            </a>
+        </div>
+        <div class="layui-col-sm3 layui-col-xs3 layui-col-lg3">
+            <a href="http://www.juzhiyuan.com/index/school-by-score.html" target="_blank">
+                <div class="item">
+                    <img th:src="@{/main_files/threeLevel3.png}">
+                    <h3>分数查大学</h3>
+                    <p>根据分数查录取院校</p>
+                </div>
+            </a>
+        </div>
+        <div class="layui-col-sm3 layui-col-xs3 layui-col-lg3">
+            <a href="http://www.juzhiyuan.com/yifenyiduan.html" target="_blank">
+                <div class="item">
+                    <img th:src="@{/main_files/threeLevel4.png}">
+                    <h3>一分一段</h3>
+                    <p>一分一段位次系统</p>
+                </div>
+            </a>
+        </div>
+        <div class="layui-col-sm3 layui-col-xs3 layui-col-lg3">
+            <a href="http://www.juzhiyuan.com/batch.html" target="_blank">
+                <div class="item">
+                    <img th:src="@{/main_files/threeLevel9.png}">
+                    <h3>批次线</h3>
+                    <p>全国各省批次线查询</p>
+                </div>
+            </a>
+        </div>
+        <div class="layui-col-sm3 layui-col-xs3 layui-col-lg3">
+            <a href="http://www.juzhiyuan.com/index/zhaoshen.html" target="_blank">
+                <div class="item">
+                    <img th:src="@{/main_files/threeLevel10.png}">
+                    <h3>招生简章</h3>
+                    <p>全国高校招生简章</p>
+                </div>
+            </a>
+        </div>
+        <div class="layui-col-sm3 layui-col-xs3 layui-col-lg3">
+            <a href="http://www.juzhiyuan.com/sch-by-major.html" target="_blank">
+                <div class="item">
+                    <img th:src="@{/main_files/threeLevel11.png}">
+                    <h3>专业开设院校</h3>
+                    <p>查专业开设院校名单</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>-->
+<!--选专业-->
+<div class="content-item layui-container">
+    <h1>数据查询</h1>
+    <h2>聚志愿全国各省新高考选科系统</h2>
+    <div class="lg">
+        <div class="top">
+            <div class="r-item flex  space-around">
+                <div class="item1 point flex align-items space-between">
+                    <img class="img" th:src="@{/main_files/x1.png}">
+                    <div class="cell point">
+                        <div class="it_info">
+                            <p class="title">查大学</p>
+                            <a data-toggle="tab" href="/system/university" >
+                            <div class="detail">立即使用</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item1 point flex align-items space-between">
+                    <img class="img" th:src="@{/main_files/x2.png}">
+                    <div class="cell point">
+                        <div class="it_info">
+                            <p class="title">查专业</p>
+                            <a href="/system/major" >
+                            <div class="detail one">立即使用</div>
+                        </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item1 point flex align-items space-between">
+                    <img class="img" th:src="@{/main_files/x3.png}">
+                    <div class="cell point">
+                        <div class="it_info">
+                            <p class="title">志愿推荐</p>
+                            <a href="/system/score" >
+                            <div class="detail two">立即使用</div>
+                        </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--今日院校-->
+<!--<div class="content-item layui-container">
+    <h1>今日院校</h1>
+    <h2 style="margin-bottom: 0px;">聚志愿今日重点推荐院校
+    </h2>
+    <div class="wrap_03  center" id="w4">
+        <a class="w1200 wrap_03_box_head school" data-sr="enter bottom, move 50px,over 0.1s,wait .1s">
+            <div class="wrap_03_box_content" onclick="jump(3108)">
+                <div class="banner_content_box">
+                    <div class="content_box_img">
+                        <img th:src="@{/main_files/3108.jpg}">
+                    </div>
+                    <ul>
+                        <li>北京大学</li>
+                        <li>北京 双一流 985 211 综合</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="wrap_03_box_content" onclick="jump(79367)">
+                <div class="banner_content_box">
+                    <div class="content_box_img">
+                        <img th:src="@{/main_files/79367.jpg}">
+                    </div>
+                    <ul>
+                        <li>复旦大学</li>
+                        <li>上海 双一流 985 211 综合</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="wrap_03_box_content" onclick="jump(24036)">
+                <div class="banner_content_box">
+                    <div class="content_box_img">
+                        <img th:src="@{/main_files/24036.jpg}">
+                    </div>
+                    <ul>
+                        <li>浙江大学</li>
+                        <li>浙江 双一流 985 211 综合</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="wrap_03_box_content" onclick="jump(76562)">
+                <div class="banner_content_box">
+                    <div class="content_box_img">
+                        <img th:src="@{/main_files/76562.jpg}">
+                    </div>
+                    <ul>
+                        <li>南京大学</li>
+                        <li>江苏 双一流 985 211 综合</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="wrap_03_box_content" onclick="jump(87012)">
+                <div class="banner_content_box">
+                    <div class="content_box_img">
+                        <img th:src="@{/main_files/87012.jpg}">
+                    </div>
+                    <ul>
+                        <li>吉林大学</li>
+                        <li>吉林 双一流 985 211 综合</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="wrap_03_box_content" onclick="jump(57214)">
+                <div class="banner_content_box">
+                    <div class="content_box_img">
+                        <img th:src="@{/main_files/57214.jpg}">
+                    </div>
+                    <ul>
+                        <li>武汉大学</li>
+                        <li>湖北 双一流 985 211 综合</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="wrap_03_box_content" onclick="jump(33706)">
+                <div class="banner_content_box">
+                    <div class="content_box_img">
+                        <img th:src="@{/main_files/33706.jpg}">
+                    </div>
+                    <ul>
+                        <li>上海交通大学</li>
+                        <li>上海 双一流 985 211 综合</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="wrap_03_box_content" onclick="jump(70703)">
+                <div class="banner_content_box">
+                    <div class="content_box_img">
+                        <img th:src="@{/main_files/70703.jpg}">
+                    </div>
+                    <ul>
+                        <li>清华大学</li>
+                        <li>北京 双一流 985 211 综合</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="wrap_03_box_content" onclick="jump(61731)">
+                <div class="banner_content_box">
+                    <div class="content_box_img">
+                        <img th:src="@{/main_files/61731.jpg}">
+                    </div>
+                    <ul>
+                        <li>中国人民大学</li>
+                        <li>北京 双一流 985 211 综合</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="wrap_03_box_content" onclick="jump(6188)">
+                <div class="banner_content_box">
+                    <div class="content_box_img">
+                        <img th:src="@{/main_files/6188.jpg}">
+                    </div>
+                    <ul>
+                        <li>华中科技大学</li>
+                        <li>湖北 双一流 985 211 综合</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="wrap_03_box_content" onclick="jump(18934)">
+                <div class="banner_content_box">
+                    <div class="content_box_img">
+                        <img th:src="@{/main_files/18934.jpg}">
+                    </div>
+                    <ul>
+                        <li>中山大学</li>
+                        <li>广东 双一流 985 211 综合</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="wrap_03_box_content" onclick="jump(80052)">
+                <div class="banner_content_box">
+                    <div class="content_box_img">
+                        <img th:src="@{/main_files/80052.jpg}">
+                    </div>
+                    <ul>
+                        <li>四川大学</li>
+                        <li>四川 双一流 985 211 综合</li>
+                    </ul>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>-->
+
+<!--今日专业-->
+<!--<div class="content-item layui-container">
+    <h1>今日专业</h1>
+    <h2>聚志愿今日重点推荐专业</h2>
+    <div class="index__major-list">
+        <a href="http://www.juzhiyuan.com/majors/010101.html" target="_blank" class="index__major-item hover-shadow">
+            <img class="index__major-cover" th:src="@{/main_files/010101.jpg}">
+            <p class="index__major-class">哲学</p>
+            <p class="index__major-name">哲学</p>
+        </a>
+        <a href="http://www.juzhiyuan.com/majors/020101.html" target="_blank" class="index__major-item hover-shadow">
+            <img class="index__major-cover" th:src="@{/main_files/020101.jpg}">
+            <p class="index__major-class">经济学</p>
+            <p class="index__major-name">经济学</p>
+        </a>
+        <a href="http://www.juzhiyuan.com/majors/020105.html" target="_blank" class="index__major-item hover-shadow">
+            <img class="index__major-cover" th:src="@{/main_files/020105.jpg}">
+            <p class="index__major-class">商务经济学</p>
+            <p class="index__major-name">经济学</p>
+        </a>
+        <a href="http://www.juzhiyuan.com/majors/020301.html" target="_blank" class="index__major-item hover-shadow">
+            <img class="index__major-cover" th:src="@{/main_files/020301.jpg}">
+            <p class="index__major-class">金融学</p>
+            <p class="index__major-name">经济学</p>
+        </a>
+        <a href="http://www.juzhiyuan.com/majors/020305.html" target="_blank" class="index__major-item hover-shadow">
+            <img class="index__major-cover" th:src="@{/main_files/020305.jpg}">
+            <p class="index__major-class">金融数学</p>
+            <p class="index__major-name">经济学</p>
+        </a>
+        <a href="http://www.juzhiyuan.com/majors/082801.html" target="_blank" class="index__major-item hover-shadow">
+            <img class="index__major-cover" th:src="@{/main_files/082801.jpg}">
+            <p class="index__major-class">建筑学</p>
+            <p class="index__major-name">工学</p>
+        </a>
+        <a href="http://www.juzhiyuan.com/majors/020401.html" target="_blank" class="index__major-item hover-shadow">
+            <img class="index__major-cover" th:src="@{/main_files/020401.jpg}">
+            <p class="index__major-class">国际经济与贸易</p>
+            <p class="index__major-name">经济学</p>
+        </a>
+        <a href="http://www.juzhiyuan.com/majors/670102.html" target="_blank" class="index__major-item hover-shadow">
+            <img class="index__major-cover" th:src="@{/main_files/670102.jpg}">
+            <p class="index__major-class">学前教育</p>
+            <p class="index__major-name">教育与体育类</p>
+        </a>
+        <a href="http://www.juzhiyuan.com/majors/670103.html" target="_blank" class="index__major-item hover-shadow">
+            <img class="index__major-cover" th:src="@{/main_files/670103.jpg}">
+            <p class="index__major-class">小学教育</p>
+            <p class="index__major-name">教育与体育类</p>
+        </a>
+        <a href="http://www.juzhiyuan.com/majors/071101.html" target="_blank" class="index__major-item hover-shadow">
+            <img class="index__major-cover" th:src="@{/main_files/071101.jpg}">
+            <p class="index__major-class">心理学</p>
+            <p class="index__major-name">理学</p>
+        </a>
+    </div>
+</div>-->
+<!--新高考-->
+<!--<div class="content-item layui-container">
+    <h1>高考资讯</h1>
+    <h2>聚志愿2800+所高考最新资讯</h2>
+    <div class="trends" id="w4">
+        <div class="trends-card" style="visibility: visible">
+            <div style="width: 56px;float: left;text-align: right;margin-right: 20px;">
+                <p class="trends-card-text-title" style="color: #ff5722; font-size: 17px; font-weight: 700">
+                    06-24						</p>
+                <p class="trends-card-text-content" style="margin-top: 15px">
+                    2021						</p>
+            </div>
+            <div class="trends-card-text">
+                <p class="trends-card-text-title">
+                    <a href="http://www.juzhiyuan.com/gaokao/news_notice/1948.html" target="_blank">算法更新：2021年湖南批次线和位次已同步</a>
+                </p>
+                <p class="trends-card-text-content">算法更新2021年湖南批次线和位次已同步到新算法，线上院校录取概率结果已采用2021年批次线和位次算出。</p>
+            </div>
+            <a href="http://www.juzhiyuan.com/gaokao/news_notice/1948.html" target="_blank" class="trends-card-btn">查看详情</a>
+        </div>
+        <div class="trends-card" style="visibility: visible">
+            <div style="width: 56px;float: left;text-align: right;margin-right: 20px;">
+                <p class="trends-card-text-title" style="color: #ff5722; font-size: 17px; font-weight: 700">
+                    06-24						</p>
+                <p class="trends-card-text-content" style="margin-top: 15px">
+                    2021						</p>
+            </div>
+            <div class="trends-card-text">
+                <p class="trends-card-text-title">
+                    <a href="http://www.juzhiyuan.com/gaokao/news_notice/1947.html" target="_blank">算法更新：2021年天津本批次线和位次已同步</a>
+                </p>
+                <p class="trends-card-text-content">算法更新2021年天津本科批次线和位次已同步到新算法，线上院校录取概率结果已采用2021年批次线和位次算出。</p>
+            </div>
+            <a href="http://www.juzhiyuan.com/gaokao/news_notice/1947.html" target="_blank" class="trends-card-btn">查看详情</a>
+        </div>
+        <div class="trends-card" style="visibility: visible">
+            <div style="width: 56px;float: left;text-align: right;margin-right: 20px;">
+                <p class="trends-card-text-title" style="color: #ff5722; font-size: 17px; font-weight: 700">
+                    06-24						</p>
+                <p class="trends-card-text-content" style="margin-top: 15px">
+                    2021						</p>
+            </div>
+            <div class="trends-card-text">
+                <p class="trends-card-text-title">
+                    <a href="http://www.juzhiyuan.com/gaokao/news_notice/1946.html" target="_blank">算法更新：2021年陕西批次线和位次已同步</a>
+                </p>
+                <p class="trends-card-text-content">算法更新2021年陕西批次线和位次已同步到新算法，线上院校录取概率结果已采用2021年批次线和位次算出。</p>
+            </div>
+            <a href="http://www.juzhiyuan.com/gaokao/news_notice/1946.html" target="_blank" class="trends-card-btn">查看详情</a>
+        </div>
+        <div class="trends-card" style="visibility: visible">
+            <div style="width: 56px;float: left;text-align: right;margin-right: 20px;">
+                <p class="trends-card-text-title" style="color: #ff5722; font-size: 17px; font-weight: 700">
+                    06-24						</p>
+                <p class="trends-card-text-content" style="margin-top: 15px">
+                    2021						</p>
+            </div>
+            <div class="trends-card-text">
+                <p class="trends-card-text-title">
+                    <a href="http://www.juzhiyuan.com/gaokao/news_notice/1945.html" target="_blank">算法更新：2021年山西本科批次线和位次已同步</a>
+                </p>
+                <p class="trends-card-text-content">算法更新2021年山西本科批次线和位次已同步到新算法，线上院校录取概率结果已采用2021年批次线和位次算出。</p>
+            </div>
+            <a href="http://www.juzhiyuan.com/gaokao/news_notice/1945.html" target="_blank" class="trends-card-btn">查看详情</a>
+        </div>
+        <div class="trends-card" style="visibility: visible">
+            <div style="width: 56px;float: left;text-align: right;margin-right: 20px;">
+                <p class="trends-card-text-title" style="color: #ff5722; font-size: 17px; font-weight: 700">
+                    06-24						</p>
+                <p class="trends-card-text-content" style="margin-top: 15px">
+                    2021						</p>
+            </div>
+            <div class="trends-card-text">
+                <p class="trends-card-text-title">
+                    <a href="http://www.juzhiyuan.com/gaokao/news_notice/1944.html" target="_blank">算法更新：2021年黑龙江批次线和位次已同步</a>
+                </p>
+                <p class="trends-card-text-content">算法更新2021年黑龙江批次线和位次已同步到新算法，线上院校录取概率结果已采用2021年批次线和位次算出。</p>
+            </div>
+            <a href="http://www.juzhiyuan.com/gaokao/news_notice/1944.html" target="_blank" class="trends-card-btn">查看详情</a>
+        </div>
+        <div class="trends-card" style="visibility: visible">
+            <div style="width: 56px;float: left;text-align: right;margin-right: 20px;">
+                <p class="trends-card-text-title" style="color: #ff5722; font-size: 17px; font-weight: 700">
+                    06-24						</p>
+                <p class="trends-card-text-content" style="margin-top: 15px">
+                    2021						</p>
+            </div>
+            <div class="trends-card-text">
+                <p class="trends-card-text-title">
+                    <a href="http://www.juzhiyuan.com/gaokao/news_notice/1943.html" target="_blank">算法更新：2021年四川批次线和位次已同步</a>
+                </p>
+                <p class="trends-card-text-content">算法更新2021年四川批次线和位次已同步到新算法，线上院校录取概率结果已采用2021年批次线和位次算出。</p>
+            </div>
+            <a href="http://www.juzhiyuan.com/gaokao/news_notice/1943.html" target="_blank" class="trends-card-btn">查看详情</a>
+        </div>
+        <div class="trends-card" style="visibility: visible">
+            <div style="width: 56px;float: left;text-align: right;margin-right: 20px;">
+                <p class="trends-card-text-title" style="color: #ff5722; font-size: 17px; font-weight: 700">
+                    06-23						</p>
+                <p class="trends-card-text-content" style="margin-top: 15px">
+                    2021						</p>
+            </div>
+            <div class="trends-card-text">
+                <p class="trends-card-text-title">
+                    <a href="http://www.juzhiyuan.com/gaokao/news_notice/1942.html" target="_blank">算法更新：2021年辽宁批次线和位次已同步</a>
+                </p>
+                <p class="trends-card-text-content">算法更新2021年辽宁批次线和位次已同步到新算法，线上院校录取概率结果已采用2021年批次线和位次算出。</p>
+            </div>
+            <a href="http://www.juzhiyuan.com/gaokao/news_notice/1942.html" target="_blank" class="trends-card-btn">查看详情</a>
+        </div>
+        <div class="trends-card" style="visibility: visible">
+            <div style="width: 56px;float: left;text-align: right;margin-right: 20px;">
+                <p class="trends-card-text-title" style="color: #ff5722; font-size: 17px; font-weight: 700">
+                    06-23						</p>
+                <p class="trends-card-text-content" style="margin-top: 15px">
+                    2021						</p>
+            </div>
+            <div class="trends-card-text">
+                <p class="trends-card-text-title">
+                    <a href="http://www.juzhiyuan.com/gaokao/news_notice/1941.html" target="_blank">算法更新：2021年上海本科批次线和位次已同步</a>
+                </p>
+                <p class="trends-card-text-content">算法更新2021年上海本科批次线和位次已同步到新算法，线上本科院校录取概率结果已采用2021年批次线和位次算出。</p>
+            </div>
+            <a href="http://www.juzhiyuan.com/gaokao/news_notice/1941.html" target="_blank" class="trends-card-btn">查看详情</a>
+        </div>
+        <div class="trends-card" style="visibility: visible">
+            <div style="width: 56px;float: left;text-align: right;margin-right: 20px;">
+                <p class="trends-card-text-title" style="color: #ff5722; font-size: 17px; font-weight: 700">
+                    06-23						</p>
+                <p class="trends-card-text-content" style="margin-top: 15px">
+                    2021						</p>
+            </div>
+            <div class="trends-card-text">
+                <p class="trends-card-text-title">
+                    <a href="http://www.juzhiyuan.com/gaokao/news_notice/1940.html" target="_blank">算法更新：2021年吉林批次线和位次已同步</a>
+                </p>
+                <p class="trends-card-text-content">算法更新2021年吉林批次线和位次已同步到新算法，线上院校录取概率结果已采用2021年批次线和位次算出。</p>
+            </div>
+            <a href="http://www.juzhiyuan.com/gaokao/news_notice/1940.html" target="_blank" class="trends-card-btn">查看详情</a>
+        </div>
+        <div class="trends-card" style="visibility: visible">
+            <div style="width: 56px;float: left;text-align: right;margin-right: 20px;">
+                <p class="trends-card-text-title" style="color: #ff5722; font-size: 17px; font-weight: 700">
+                    06-23						</p>
+                <p class="trends-card-text-content" style="margin-top: 15px">
+                    2021						</p>
+            </div>
+            <div class="trends-card-text">
+                <p class="trends-card-text-title">
+                    <a href="http://www.juzhiyuan.com/gaokao/news_notice/1939.html" target="_blank">算法更新：2021年安徽批次线和位次已同步</a>
+                </p>
+                <p class="trends-card-text-content">算法更新：2021年安徽批次线和位次已同步到新算法，线上院校录取概率结果已采用2021年批次线和位次算出。</p>
+            </div>
+            <a href="http://www.juzhiyuan.com/gaokao/news_notice/1939.html" target="_blank" class="trends-card-btn">查看详情</a>
+        </div>
+    </div>
+</div>-->
+<!--footer-->
+<!--<div class="footer">
+    <div class="footbody">
+        <ul>
+            <li>
+                <div class="staty_num">2800+</div>
+                <div class="staty_right"><span class="staty_text">所</span> <span class="staty_tip">高校</span></div>
+            </li>
+            <li>
+                <div class="staty_num">1200+</div>
+                <div class="staty_right"><span class="staty_text">万</span> <span class="staty_tip">用户</span></div>
+            </li>
+            <li>
+                <div class="staty_num">2012</div>
+                <div class="staty_right"><span class="staty_text">年</span> <span class="staty_tip">始于</span></div>
+            </li>
+            <li>
+                <div class="staty_num">1000+</div>
+                <div class="staty_right"><span class="staty_text">万</span> <span class="staty_tip">数据</span></div>
+            </li>
+        </ul>
+        <div class="footer-list">
+            <div class="footer-content">
+                <ul class="one_ul clr">
+                    <li class="item">
+                        <dl>
+                            <dt>高校查询</dt>
+                            <dd><a href="http://www.juzhiyuan.com/schools.html" target="_blank">大学介绍</a></dd>
+                            <dd><a href="http://www.juzhiyuan.com/schools.html" target="_blank">开设专业</a></dd>
+                            <dd><a href="http://www.juzhiyuan.com/schools.html" target="_blank">重点专业</a></dd>
+                        </dl>
+                    </li>
+                    <li class="item">
+                        <dl>
+                            <dt>录取数据</dt>
+                            <dd><a href="http://www.juzhiyuan.com/index/school-score.html" target="_blank">录取分数</a></dd>
+                            <dd><a href="http://www.juzhiyuan.com/index/major-score.html" target="_blank">专业分数</a></dd>
+                            <dd><a href="http://www.juzhiyuan.com/index/school-plan.html" target="_blank">招生计划</a></dd>
+                        </dl>
+                    </li>
+                    <li class="item">
+                        <dl>
+                            <dt>高校评价</dt>
+                            <dd><a href="http://www.juzhiyuan.com/schools.html" target="_blank">大学评价</a></dd>
+                            <dd><a href="http://www.juzhiyuan.com/schools.html" target="_blank">招生问答</a></dd>
+                            <dd><a href="http://www.juzhiyuan.com/schools.html" target="_blank">专业评价</a></dd>
+                        </dl>
+                    </li>
+                    <li class="item">
+                        <dl>
+                            <dt>高考专业</dt>
+                            <dd><a href="http://www.juzhiyuan.com/majors.html" target="_blank">专业介绍</a></dd>
+                            <dd><a href="http://www.juzhiyuan.com/majors.html" target="_blank">就业前景</a></dd>
+                            <dd><a href="http://www.juzhiyuan.com/majors.html" target="_blank">就业方向</a></dd>
+                        </dl>
+                    </li>
+                    <li class="item">
+                        <dl>
+                            <dt>志愿填报</dt>
+                            <dd><a href="http://www.juzhiyuan.com/cesuan">智能填报</a></dd>                            <dd><a href="http://www.juzhiyuan.com/yifenyiduan.html" target="_blank">一分一段</a></dd>
+                            <dd><a href="http://www.juzhiyuan.com/daxuepaiming.html" target="_blank">大学排名</a></dd>
+                        </dl>
+                    </li>
+                    <li class="item" style="border: none;">
+                        <dl class="last">
+                            <dt>关注联系我们</dt>
+                            <dd><a href="javascript:void(0)" class="on"><div class="img" style="display: block;"><img th:src="@{/main_files/newrem.png}" style="height: 82px;"></div></a></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="content12">
+            <div class="footer-ba">
+                <span>Copyright © 2012-2021 聚志愿版权所有 All Rights Reserved</span>
+                <span style="margin-left: 20px;">地址：安徽包河区万达广场4221室 </span>
+                <div style="padding-top: 10px;">工信部备案号：<a href="https://beian.miit.gov.cn/" target="_blank" class="hcainfo_num">皖ICP备20004639号-1</a>
+                </div>
+            </div>
+        </div>
+        <div style="display:none;"><script type="text/javascript" th:src="@{/static/main_files/z_stat.php}"></script><script th:src="@{/main_files/core.php}" charset="utf-8" type="text/javascript"></script><a href="https://www.cnzz.com/stat/website.php?web_id=1278869308" target="_blank" title="站长统计">站长统计</a></div>
+    </div>
+</div>-->
+
+<script>
+    // $(".gkAlert").on('click',function(){
+    //     requestSetEstimateInfo();
+    // })
+
+
+</script>
+
+
+<script th:src="@{/main_files/cookie.js}" type="text/javascript"></script>
+<script th:src="@{/main_files/site.js}" type="text/javascript"></script>
+
+<div id="examinationDialog" class="examinationDialog layui-hide"><link th:href="@{/main_files/newAdd.css}" type="text/css" rel="stylesheet"><style>
+    .UniversityDialog {
+        z-index: 999;
+    }
+</style>
+    <div id="alert-dialog"><div class="University UniversityDialog"><div class="examination_box" style="margin: 0px; box-sizing: border-box;"><p class="examination_close"><i class="layui-icon layui-icon-close"></i></p> <p class="examination_title">请填写您的高考信息</p> <div class="flex_between examination_li"><p class="examinationLi-left">省&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;份</p> <div style="position: relative; width: 80%;"><div class="examinationLi-right flex_between showpro" style="padding: 8px 10px 8px 20px; margin: 0px; box-sizing: border-box;"><p id="cityName">广东</p></div> <div hidden="hidden" class="cityHide"><div id="University_city" class="University_city" style="display: flex; justify-content: flex-start; width: auto;"><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        安徽</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        北京</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        重庆</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        福建</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        甘肃</p><p class="city_active cityActive" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        广东</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        广西</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        贵州</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        海南</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        河北</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        河南</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        黑龙江</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        湖北</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        湖南</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        江西</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        吉林</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        江苏</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        辽宁</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        内蒙古</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        宁夏</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        青海</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        山东</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        山西</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        陕西</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        上海</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        四川</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        天津</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        新疆</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        云南</p><p class="city_active" style="padding: 0px 8px; margin: 10px 0px 0px 10px; box-sizing: border-box;">
+        浙江</p></div></div></div></div> <!----> <div id="addHtml"><div class="flex_between2 examination_li"><p class="examinationLi-left" style="margin-top: 7px;">首选科目</p> <div class="examinationLi-list"><p kemu="4" class="sxKemuFirst ">物理</p> <p kemu="2" class="sxKemuFirst ">历史</p></div></div> <div class="flex_between2 examination_li"><p class="examinationLi-left" style="margin-top: 7px;">再选科目</p> <div class="examinationLi-list"><p kemu="5" class="sxKemu1 ">化学</p> <p kemu="6" class="sxKemu1 ">生物</p> <p kemu="1" class="sxKemu1 ">政治</p> <p kemu="3" class="sxKemu1 ">地理</p></div></div></div> <div class="flex_between examination_li"><p class="examinationLi-left">高考分数</p> <div class="examinationLi-right flex_between rightWidth"><input type="text" placeholder="请输入200-750分区间的整数" name=""> <p>分</p></div></div> <div class="examination_li"><p class="examination_btn">确定</p></div></div></div></div>
+    <script th:src="@{/main_files/Utils.js}"></script>
+    <script th:src="@{/main_files/alert.js}"></script></div>
+
+
+<script>
+    function jump(jzy_code) {
+        window.open('/school/' + jzy_code);
+    }
+
+    function startAnalysis(){
+        // return layer.alert('即将开放，敬请期待',{icon:0});
+        // var kemus = vm.kemus ? vm.kemus:(parseInt($('input[name="user_kemu"]').val()));
+        // var wenli = vm.wenli ? vm.wenli:(parseInt($('input[name="user_wenli"]').val()));
+        var form = document.getElementById('formId');
+
+        var kemus = vm.kemus;
+        var wenli = vm.wenli;
+        var score = vm.score;
+        var rank = vm.rank;
+        var score = formId.score;
+        var subject = formId.subject;
+        var ranking = formId.ranking;
+        // if(subject.value.length == ''{
+        //     // return layer.alert('科目或文理必选一项',{icon:0});
+        //     return layer.msg('科目或文理必选一项', {icon: 5,time: 3000 });
+        // }
+        if(score.value.length==''){
+            // return layer.alert('分数为必填项',{icon:0});
+            return layer.msg('分数为必填项', {icon: 5,time: 3000 });
+        }
+        if(score.value>750){
+            // return layer.alert('请输入200~700间的分数',{icon:0});
+            return layer.msg('最高分不能大于750分', {icon: 5,time: 3000 });
+        }
+
+        // $.post(ctx + "/system/score/getScoreAndSubject", {score: score.value,subject: subject.value}, function (data) {
+        //         layer.msg("出库成功");
+        //
+        // })
+
+        $.ajax({
+            type:"get",
+            url: "/system/score/toScore",
+            data: {"score":$("#score").val(),
+                "subject":subject.value,
+                "ranking":ranking.value,
+            }
+        });
+
+        document.getElementById("alink").click();
+        // if(rank.length==''){
+        //     // return layer.alert('排名为必填项',{icon:0});
+        //     return layer.msg('排名为必填项', {icon: 5,time: 3000 });
+        // }
+        // var href = "/cesuan?province="+vm.cur_province_code+"&score="+score+"&rank="+rank
+        // var subjects  = ''
+        // if(kemus.length>0){
+        //     if($.isArray(kemus)){
+        //         kemus = kemus.join('')
+        //     }
+        //     subjects = kemus;
+        //     href+="&mykemu="+kemus;
+        // }else if(wenli.length||wenli){
+        //     href+="&wenli="+wenli;
+        //     subjects = wenli;
+        // }
+        var verifyMinScore = jzy_batchObj.veryscore(provinceContorl.getCode(),subjects,score);
+        if(verifyMinScore.code === 1){
+            return layer.msg(verifyMinScore.msg, {icon: 5,time: 3000 });
+        }
+        goToEstimate({
+            subjects:subjects,score:score,province:vm.cur_province_code,rank:rank
+        })
+    }
+    /*$(".gkAlert").on('click',function(){
+        // $("#examinationDialog").removeClass('layui-hide');
+        // var topPos = $(document).scrollTop();
+        // $('document').css('overflow', 'hidden');
+        // $('body').css({
+        //     'position': 'fixed',
+        //     'top': -topPos + 'px',
+        //     'width': '100%'
+        // });
+		requestSetEstimateInfo();
+    })*/
+
+</script></body></html>

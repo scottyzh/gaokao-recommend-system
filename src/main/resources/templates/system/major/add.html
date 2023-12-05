@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增专业查询')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-major-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">学校名称：</label>
+                <div class="col-sm-8">
+                    <input name="uniName" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">学校代码：</label>
+                <div class="col-sm-8">
+                    <input name="uniCode" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">方向：</label>
+                <div class="col-sm-8">
+                    <input name="uniDirection" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">专业名称：</label>
+                <div class="col-sm-8">
+                    <input name="majorName" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">专业代码：</label>
+                <div class="col-sm-8">
+                    <input name="majorCode" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">首选科目:物理/历史：</label>
+                <div class="col-sm-8">
+                    <input name="firstRequest" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">次选科目：除物历外的科目。若无要求，则写任选：</label>
+                <div class="col-sm-8">
+                    <input name="secondRequest" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">最低分数：</label>
+                <div class="col-sm-8">
+                    <input name="majorLowScore" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">最低分排名：</label>
+                <div class="col-sm-8">
+                    <input name="majorLowRank" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/major"
+        $("#form-major-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-major-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

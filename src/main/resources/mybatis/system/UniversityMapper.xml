@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.university.mapper.UniversityMapper">
+    
+    <resultMap type="University" id="UniversityResult">
+        <result property="uniName"    column="uni_name"    />
+        <result property="uniProvince"    column="uni_province"    />
+        <result property="uniCity"    column="uni_city"    />
+        <result property="uniType"    column="uni_type"    />
+        <result property="uniCode"    column="uni_code"    />
+        <result property="uniDirection"    column="uni_direction"    />
+        <result property="level"    column="level"    />
+        <result property="physisLowScore"    column="physis_low_score"    />
+        <result property="historyLowScore"    column="history_low_score"    />
+        <result property="physisLowScoreRank"    column="physis_low_score_rank"    />
+        <result property="historyLowScoreRank"    column="history_low_score_rank"    />
+        <result property="physisMatriculateNumber"    column="physis_matriculate_number"    />
+        <result property="historyMatriculateNumber"    column="history_matriculate_number"    />
+        <result property="physisTotal"    column="physis_total"    />
+        <result property="historyTotal"    column="history_total"    />
+    </resultMap>
+
+    <sql id="selectUniversityVo">
+        select uni_name, uni_province, uni_city, uni_type, uni_code, uni_direction, level, physis_low_score, history_low_score, physis_low_score_rank, history_low_score_rank, physis_matriculate_number, history_matriculate_number ,physis_total,history_total from university
+    </sql>
+
+    <select id="selectUniversityList" parameterType="University" resultMap="UniversityResult">
+        <include refid="selectUniversityVo"/>
+        <where>  
+            <if test="uniName != null  and uniName != ''"> and uni_name like concat('%', #{uniName}, '%')</if>
+            <if test="uniProvince != null  and uniProvince != ''"> and uni_province = #{uniProvince}</if>
+            <if test="uniCity != null  and uniCity != ''"> and uni_city = #{uniCity}</if>
+            <if test="uniType != null  and uniType != ''"> and uni_type = #{uniType}</if>
+            <if test="uniCode != null  and uniCode != ''"> and uni_code = #{uniCode}</if>
+            <if test="uniDirection != null  and uniDirection != ''"> and uni_direction = #{uniDirection}</if>
+            <if test="level != null  and level != ''"> and level = #{level}</if>
+            <if test="physisLowScore != null "> and physis_low_score = #{physisLowScore}</if>
+            <if test="historyLowScore != null "> and history_low_score = #{historyLowScore}</if>
+            <if test="physisLowScoreRank != null "> and physis_low_score_rank = #{physisLowScoreRank}</if>
+            <if test="historyLowScoreRank != null "> and history_low_score_rank = #{historyLowScoreRank}</if>
+            <if test="physisMatriculateNumber != null "> and physis_matriculate_number = #{physisMatriculateNumber}</if>
+            <if test="historyMatriculateNumber != null "> and history_matriculate_number = #{historyMatriculateNumber}</if>
+        </where>
+    </select>
+    
+    <select id="selectUniversityByUniName" parameterType="String" resultMap="UniversityResult">
+        <include refid="selectUniversityVo"/>
+        where uni_name = #{uniName}
+    </select>
+        
+    <insert id="insertUniversity" parameterType="University">
+        insert into university
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uniName != null">uni_name,</if>
+            <if test="uniProvince != null">uni_province,</if>
+            <if test="uniCity != null">uni_city,</if>
+            <if test="uniType != null">uni_type,</if>
+            <if test="uniCode != null">uni_code,</if>
+            <if test="uniDirection != null">uni_direction,</if>
+            <if test="level != null">level,</if>
+            <if test="physisLowScore != null">physis_low_score,</if>
+            <if test="historyLowScore != null">history_low_score,</if>
+            <if test="physisLowScoreRank != null">physis_low_score_rank,</if>
+            <if test="historyLowScoreRank != null">history_low_score_rank,</if>
+            <if test="physisMatriculateNumber != null">physis_matriculate_number,</if>
+            <if test="historyMatriculateNumber != null">history_matriculate_number,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uniName != null">#{uniName},</if>
+            <if test="uniProvince != null">#{uniProvince},</if>
+            <if test="uniCity != null">#{uniCity},</if>
+            <if test="uniType != null">#{uniType},</if>
+            <if test="uniCode != null">#{uniCode},</if>
+            <if test="uniDirection != null">#{uniDirection},</if>
+            <if test="level != null">#{level},</if>
+            <if test="physisLowScore != null">#{physisLowScore},</if>
+            <if test="historyLowScore != null">#{historyLowScore},</if>
+            <if test="physisLowScoreRank != null">#{physisLowScoreRank},</if>
+            <if test="historyLowScoreRank != null">#{historyLowScoreRank},</if>
+            <if test="physisMatriculateNumber != null">#{physisMatriculateNumber},</if>
+            <if test="historyMatriculateNumber != null">#{historyMatriculateNumber},</if>
+         </trim>
+    </insert>
+
+    <update id="updateUniversity" parameterType="University">
+        update university
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="uniProvince != null">uni_province = #{uniProvince},</if>
+            <if test="uniCity != null">uni_city = #{uniCity},</if>
+            <if test="uniType != null">uni_type = #{uniType},</if>
+            <if test="uniCode != null">uni_code = #{uniCode},</if>
+            <if test="uniDirection != null">uni_direction = #{uniDirection},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="physisLowScore != null">physis_low_score = #{physisLowScore},</if>
+            <if test="historyLowScore != null">history_low_score = #{historyLowScore},</if>
+            <if test="physisLowScoreRank != null">physis_low_score_rank = #{physisLowScoreRank},</if>
+            <if test="historyLowScoreRank != null">history_low_score_rank = #{historyLowScoreRank},</if>
+            <if test="physisMatriculateNumber != null">physis_matriculate_number = #{physisMatriculateNumber},</if>
+            <if test="historyMatriculateNumber != null">history_matriculate_number = #{historyMatriculateNumber},</if>
+        </trim>
+        where uni_name = #{uniName}
+    </update>
+
+    <delete id="deleteUniversityByUniName" parameterType="String">
+        delete from university where uni_name = #{uniName}
+    </delete>
+
+    <delete id="deleteUniversityByUniNames" parameterType="String">
+        delete from university where uni_name in 
+        <foreach item="uniName" collection="array" open="(" separator="," close=")">
+            #{uniName}
+        </foreach>
+    </delete>
+    <select id="selectUniversityHighRisk" parameterType="University" resultMap="UniversityResult">
+        <include refid="selectUniversityVo"/>
+        <where>
+            <if test="uniName != null  and uniName != ''"> and uni_name like concat('%', #{uniName}, '%')</if>
+            <if test="uniProvince != null  and uniProvince != ''"> and uni_province = #{uniProvince}</if>
+            <if test="uniCity != null  and uniCity != ''"> and uni_city = #{uniCity}</if>
+            <if test="uniType != null  and uniType != ''"> and uni_type = #{uniType}</if>
+            <if test="uniCode != null  and uniCode != ''"> and uni_code = #{uniCode}</if>
+            <if test="uniDirection != null  and uniDirection != ''"> and uni_direction = #{uniDirection}</if>
+            <if test="level != null  and level != ''"> and level = #{level}</if>
+            <if test="physisLowScore != null "> and physis_low_score between #{physisLowScore} - 30 and #{physisLowScore} + 20
+                and physis_matriculate_number > 30
+                order by physis_low_score desc
+            </if>
+            <if test="historyLowScore != null "> and history_low_score between #{historyLowScore} - 30 and #{historyLowScore} + 20
+                and history_matriculate_number > 30
+                order by history_low_score desc
+            </if>
+            <if test="physisLowScoreRank != null "> and physis_low_score_rank = #{physisLowScoreRank}</if>
+            <if test="historyLowScoreRank != null "> and history_low_score_rank = #{historyLowScoreRank}</if>
+            <if test="physisMatriculateNumber != null "> and physis_matriculate_number = #{physisMatriculateNumber}</if>
+            <if test="historyMatriculateNumber != null "> and history_matriculate_number = #{historyMatriculateNumber}</if>
+        </where>
+    </select>
+
+
+</mapper>

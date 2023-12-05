@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.major.mapper.MajorMapper">
+    
+    <resultMap type="Major" id="MajorResult">
+        <result property="uniName"    column="uni_name"    />
+        <result property="uniCode"    column="uni_code"    />
+        <result property="uniDirection"    column="uni_direction"    />
+        <result property="majorName"    column="major_name"    />
+        <result property="majorCode"    column="major_code"    />
+        <result property="firstRequest"    column="first_request"    />
+        <result property="secondRequest"    column="second_request"    />
+        <result property="majorLowScore"    column="major_low_score"    />
+        <result property="majorLowRank"    column="major_low_rank"    />
+    </resultMap>
+
+    <sql id="selectMajorVo">
+        select uni_name, uni_code, uni_direction, major_name, major_code, first_request, second_request, major_low_score, major_low_rank from major
+    </sql>
+
+    <select id="selectMajorList" parameterType="Major" resultMap="MajorResult">
+        <include refid="selectMajorVo"/>
+        <where>  
+            <if test="uniName != null  and uniName != ''"> and uni_name like concat('%', #{uniName}, '%')</if>
+            <if test="uniCode != null  and uniCode != ''"> and uni_code = #{uniCode}</if>
+            <if test="uniDirection != null  and uniDirection != ''"> and uni_direction = #{uniDirection}</if>
+            <if test="majorName != null  and majorName != ''"> and major_name like concat('%', #{majorName}, '%')</if>
+            <if test="majorCode != null  and majorCode != ''"> and major_code = #{majorCode}</if>
+            <if test="firstRequest != null  and firstRequest != ''"> and first_request = #{firstRequest}</if>
+            <if test="secondRequest != null  and secondRequest != ''"> and second_request = #{secondRequest}</if>
+            <if test="majorLowScore != null "> and major_low_score = #{majorLowScore}</if>
+            <if test="majorLowRank != null "> and major_low_rank = #{majorLowRank}</if>
+        </where>
+    </select>
+    
+    <select id="selectMajorByUniName" parameterType="String" resultMap="MajorResult">
+        <include refid="selectMajorVo"/>
+        where uni_name = #{uniName}
+    </select>
+        
+    <insert id="insertMajor" parameterType="Major">
+        insert into major
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uniName != null">uni_name,</if>
+            <if test="uniCode != null">uni_code,</if>
+            <if test="uniDirection != null">uni_direction,</if>
+            <if test="majorName != null">major_name,</if>
+            <if test="majorCode != null">major_code,</if>
+            <if test="firstRequest != null">first_request,</if>
+            <if test="secondRequest != null">second_request,</if>
+            <if test="majorLowScore != null">major_low_score,</if>
+            <if test="majorLowRank != null">major_low_rank,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uniName != null">#{uniName},</if>
+            <if test="uniCode != null">#{uniCode},</if>
+            <if test="uniDirection != null">#{uniDirection},</if>
+            <if test="majorName != null">#{majorName},</if>
+            <if test="majorCode != null">#{majorCode},</if>
+            <if test="firstRequest != null">#{firstRequest},</if>
+            <if test="secondRequest != null">#{secondRequest},</if>
+            <if test="majorLowScore != null">#{majorLowScore},</if>
+            <if test="majorLowRank != null">#{majorLowRank},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMajor" parameterType="Major">
+        update major
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="uniCode != null">uni_code = #{uniCode},</if>
+            <if test="uniDirection != null">uni_direction = #{uniDirection},</if>
+            <if test="majorName != null">major_name = #{majorName},</if>
+            <if test="majorCode != null">major_code = #{majorCode},</if>
+            <if test="firstRequest != null">first_request = #{firstRequest},</if>
+            <if test="secondRequest != null">second_request = #{secondRequest},</if>
+            <if test="majorLowScore != null">major_low_score = #{majorLowScore},</if>
+            <if test="majorLowRank != null">major_low_rank = #{majorLowRank},</if>
+        </trim>
+        where uni_name = #{uniName}
+    </update>
+
+    <delete id="deleteMajorByUniName" parameterType="String">
+        delete from major where uni_name = #{uniName}
+    </delete>
+
+    <delete id="deleteMajorByUniNames" parameterType="String">
+        delete from major where uni_name in 
+        <foreach item="uniName" collection="array" open="(" separator="," close=")">
+            #{uniName}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增院校查询')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-university-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">学校名称：</label>
+                <div class="col-sm-8">
+                    <input name="uniName" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">省份：</label>
+                <div class="col-sm-8">
+                    <input name="uniProvince" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">城市：</label>
+                <div class="col-sm-8">
+                    <input name="uniCity" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">学校代码：</label>
+                <div class="col-sm-8">
+                    <input name="uniCode" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">方向：</label>
+                <div class="col-sm-8">
+                    <input name="uniDirection" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">批次：</label>
+                <div class="col-sm-8">
+                    <input name="level" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">物理最低分：</label>
+                <div class="col-sm-8">
+                    <input name="physisLowScore" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">历史最低分：</label>
+                <div class="col-sm-8">
+                    <input name="historyLowScore" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">物理最低分排名：</label>
+                <div class="col-sm-8">
+                    <input name="physisLowScoreRank" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">历史最低分排名：</label>
+                <div class="col-sm-8">
+                    <input name="historyLowScoreRank" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">物理类录取人数：</label>
+                <div class="col-sm-8">
+                    <input name="physisMatriculateNumber" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">历史类录取人数：</label>
+                <div class="col-sm-8">
+                    <input name="historyMatriculateNumber" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/university"
+        $("#form-university-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-university-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

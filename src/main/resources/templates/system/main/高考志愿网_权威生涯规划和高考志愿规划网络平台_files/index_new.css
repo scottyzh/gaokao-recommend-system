@@ -1,0 +1,140 @@
+.expertTeam{list-style:none;margin:0;padding:0}  
+.expertTeam li{float:left;width:22%;margin-right:3.6%;height:auto;background:#fff;overflow:hidden;padding-bottom:20px} 
+.map, .map_icon{color:#222;}
+.teamList{
+	 width:275px; 
+	 height:520px; 
+	 float:left;
+}
+ .teamList:hover{
+	 width:275px; 
+	 height:518px; 
+	 border:0px solid #ccc;
+     box-shadow: 0px 0px 2px #888888;
+	 background-color: #fff;
+}       
+*{margin: 0;padding: 0}
+.TTSlider{}
+.TTSlider li{list-style-type:none;float: left;}
+.TTSlider li img{border: none;}
+.TTSliderTitle{background: #FAFAFA;height: 63px;}
+.TTSliderTitle ul{width: 980px;}
+.TTSliderTitle li{width: 140px;height: 63px;position: relative;z-index: 3;left: 0;}
+.TTSliderTitle li div{border-right: 1px solid #C3C5C7;border-top: 1px solid #C3C5C7;left: 0;right: 0;top: 0;bottom: 0;position: absolute;_width:139px;_height:62px}
+.TTSliderTitle .cur div{border: 2px solid #333;background: #fff;z-index: 3;border-bottom: none;bottom: -2px;_height:63px;_width:136px}
+.TTSliderTitle .noneBorRight div{border-right: none;}
+.TTSliderPic{width:1200px;position: relative;height: 380px;z-index: 1}
+.TTSliderPicList{position: relative;width:1200px;overflow: hidden;height:380px;}
+.TTSliderPic ul{position: absolute;display: none;top:3px;left: 0}
+.TTSliderPic ul.show{display: block;}
+.TTSliderPic li{padding-right:20px;}
+.TTSliderPic li a{display: block;}
+.TTSliderPic li p{}
+.TTSliderPrevBtn,.TTSliderNextBtn{height: 100%;width: 45px;position: absolute;z-index: 999;top: 0;text-align: center;}
+.TTSliderPrevBtn{left:-45px}
+.TTSliderNextBtn{right: -50px;}
+.TTSliderPrevBtn a,.TTSliderNextBtn a{height: 60px;width:25px;display: inline-block;background: url(../images/btns.png) no-repeat;margin-top: 80px}
+.TTSliderNextBtn a{background: url(../images/btns.png) no-repeat -25px 0}  
+ .rmdiv{width:100%; height:125px; text-align:center; margin:0 auto;overflow:hidden}
+    .rm_nav{width:1200px; height:125px; text-align:center; margin:0 auto;overflow:hidden}
+.rm_nav ul{ margin:0 auto;padding:0;list-style:none; text-align:center}
+.rm_nav ul li{
+float:left;
+text-align:center}
+.txt_de{color:#333;font-size:15px;margin-top:10px;font-family:ºÚÌå}
+.social-btns {
+  width:1200px;	
+  text-align:center;
+  height: 90px;
+  margin: 20px auto;
+  font-size: 0;
+  text-align: center;
+}
+.social-btns ul li{float:left;maring:0 5px}
+.social-btns ul li p{display:block;}
+.social-btns .btn,
+.social-btns .btn:before,
+.social-btns .btn .fa {
+  transition: all 0.35s;
+  transition-timing-function: cubic-bezier(0.31, -0.105, 0.43, 1.59);
+}
+.social-btns .btn:before {
+  top: 90%;
+  left: -110%;
+}
+.social-btns .btn .fa {
+  -webkit-transform: scale(0.8);
+  transform: scale(0.8);
+}
+.social-btns .btn.facebook:before {
+  background-color: #81c148;
+}
+.social-btns .btn.facebook .fa {
+  color: #81c148;
+}
+.social-btns .btn.twitter:before {
+  background-color: #00aff0;
+}
+.social-btns .btn.twitter .fa {
+  color: #00aff0;
+}
+.social-btns .btn.google:before {
+  background-color: #dc4a38;
+}
+.social-btns .btn.google .fa {
+  color: #dc4a38;
+}
+.social-btns .btn.instagram:before {
+  background-color: #bf00ff;
+}
+.social-btns .btn.instagram .fa {
+  color: #bf00ff;
+}
+.social-btns .btn.pinterest:before {
+  background-color: #cc0000;
+}
+.social-btns .btn.pinterest .fa {
+  color: #cc0000;
+}
+.social-btns .btn:focus:before,
+.social-btns .btn:hover:before {
+  top: -10%;
+  left: -10%;
+}
+.social-btns .btn:focus .fa,
+.social-btns .btn:hover .fa {
+  color: #fff;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+
+.social-btns .btn {
+border:1px solid #f1f1f1;
+  display: inline-block;
+  background-color: #fff;
+  width: 90px;
+  height: 90px;
+  line-height: 80px;
+  margin: 0 13px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-radius: 28%;
+  box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.1);
+  opacity: 0.99;
+}
+.social-btns .btn:before {
+  content: "";
+  width: 120%;
+  height: 120%;
+  position: absolute;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.social-btns .btn .fa {
+  font-size: 38px;
+  vertical-align: middle;
+}
+ .ipad_nav {
+	 width:100%;
+   } 
